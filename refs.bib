@@ -1,42 +1,229 @@
-@Book{lamport:86,
-  author =    {Leslie Lamport},
-  title =        {\LaTeX: A document preparation system},
-  publisher =    {Addision-Wesley},
-  year =         1986
+@dataset{pan21dataset,
+  author       = {FRANCISCO RANGEL and
+                  BERTa CHULVI and
+                  GRETEL LIZ DE LA PEÑA and
+                  ELISABETTA FERSINI and
+                  PAOLO ROSSO},
+  title        = {Profiling Hate Speech Spreaders on Twitter},
+  month        = mar,
+  year         = 2021,
+  publisher    = {Zenodo},
+  doi          = {10.5281/zenodo.5637013},
+  url          = {https://doi.org/10.5281/zenodo.5637013}
 }
 
-@PhdThesis{sai:16,
-  author =       {Sai Praneeth Reddy K},
-  title =        {\LaTeX\ class for dissertations submitted to {IIT-D}},
-  school =       {Department of Computer Science and Engineering, IIT-Delhi},
-  year =         2016,
-  address =      {New Delhi -- 110016},
-  month =        {July}
+
+%%%%%%%%%%%%%% LIBRARIES %%%%%%%%%%%%%%%%%
+@article{scikit-learn,
+ title={Scikit-learn: Machine Learning in {P}ython},
+ author={Pedregosa, F. and Varoquaux, G. and Gramfort, A. and Michel, V.
+         and Thirion, B. and Grisel, O. and Blondel, M. and Prettenhofer, P.
+         and Weiss, R. and Dubourg, V. and Vanderplas, J. and Passos, A. and
+         Cournapeau, D. and Brucher, M. and Perrot, M. and Duchesnay, E.},
+ journal={Journal of Machine Learning Research},
+ volume={12},
+ pages={2825--2830},
+ year={2011}
+}
+@article{textblob,
+  title={textblob Documentation},
+  author={Loria, Steven},
+  journal={Release 0.15},
+  volume={2},
+  year={2018}
+}
+@unpublished{spacy,
+    AUTHOR = {Honnibal, Matthew and Montani, Ines},
+    TITLE  = {{spaCy 2}: Natural language understanding with {B}loom embeddings, convolutional neural networks and incremental parsing},
+    YEAR   = {2017},
+    Note   = {To appear}
+}
+@incollection{pytorch,
+title = {PyTorch: An Imperative Style, High-Performance Deep Learning Library},
+author = {Paszke, Adam and Gross, Sam and Massa, Francisco and Lerer, Adam and Bradbury, James and Chanan, Gregory and Killeen, Trevor and Lin, Zeming and Gimelshein, Natalia and Antiga, Luca and Desmaison, Alban and Kopf, Andreas and Yang, Edward and DeVito, Zachary and Raison, Martin and Tejani, Alykhan and Chilamkurthy, Sasank and Steiner, Benoit and Fang, Lu and Bai, Junjie and Chintala, Soumith},
+booktitle = {Advances in Neural Information Processing Systems 32},
+editor = {H. Wallach and H. Larochelle and A. Beygelzimer and F. d\textquotesingle Alch\'{e}-Buc and E. Fox and R. Garnett},
+pages = {8024--8035},
+year = {2019},
+publisher = {Curran Associates, Inc.},
+url = {http://papers.neurips.cc/paper/9015-pytorch-an-imperative-style-high-performance-deep-learning-library.pdf}
+}
+@software{pytorch_lightning,
+author = {Falcon, William and {The PyTorch Lightning team}},
+doi = {10.5281/zenodo.3828935},
+license = {Apache-2.0},
+month = {3},
+title = {{PyTorch Lightning}},
+url = {https://github.com/PyTorchLightning/pytorch-lightning},
+version = {1.4},
+year = {2019}
+}
+@article{gensim,
+  title={Gensim--python framework for vector space modelling},
+  author={Rehurek, Radim and Sojka, Petr},
+  journal={NLP Centre, Faculty of Informatics, Masaryk University, Brno, Czech Republic},
+  volume={3},
+  number={2},
+  year={2011}
+}
+@inproceedings{pandas,
+  title={Data structures for statistical computing in python},
+  author={McKinney, Wes and others},
+  booktitle={Proceedings of the 9th Python in Science Conference},
+  volume={445},
+  pages={51--56},
+  year={2010},
+  organization={Austin, TX}
 }
 
-@InProceedings{viz:mayavi,
-  author =       {Prabhu Ramachandran},
-  title =        {{MayaVi}: A free tool for {CFD} data visualization},
-  booktitle =    {4th Annual CFD Symposium},
-  year =         2001,
-  month =        {August},
-  organization = {Aeronautical Society of India},
-  note =         {Software available at: {http://mayavi.sf.net}}
+%%%%%%%%%%%% INTRO %%%%%%%%%%%%%%
+@misc{datareportal_stats, title={Digital Around the World}, url={https://datareportal.com/global-digital-overview}, journal={DataReportal}, year={2022}} 
+
+@misc{techjury, title={How much data is created every day in 2022?}, url={https://techjury.net/blog/how-much-data-is-created-every-day/}, journal={Techjury}, author={Bulao, Jacquelyn}, year={2022}}
+
+@misc{baggs_2021, title={Online hate speech rose 20\% during pandemic: 'we've Normalised it'}, url={https://www.bbc.com/news/newsbeat-59292509}, journal={BBC News}, publisher={BBC}, author={Baggs, Michael}, year={2021}, month={Nov}} 
+ 
+ %%%%%%%%% RELATED WORKS %%%%%%%%%%%%%
+@misc{methodsSurvey,
+      title={A systematic review of Hate Speech automatic detection using Natural Language Processing}, 
+      author={Md Saroar Jahan and Mourad Oussalah},
+      year={2021},
+      eprint={2106.00742},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
 }
 
-@Article{pan:pr:flat-fst,
-  author =       {Prabhu Ramachandran and S. C. Rajan and M. Ramakrishna},
-  title =        {A fast, two-dimensional panel method},
-  journal =      {SIAM Journal on Scientific Computing},
-  year =         2003,
-  volume =       24,
-  number =       6,
-  pages =        {1864--1878}
+@article{ElSherief, title={Peer to Peer Hate: Hate Speech Instigators and Their Targets}, volume={12}, url={https://ojs.aaai.org/index.php/ICWSM/article/view/15038}, abstractNote={ &lt;p&gt; While social media has become an empowering agent to individual voices and freedom of expression, it also facilitates anti-social behaviors including online harassment, cyberbullying, and hate speech. In this paper, we present the first comparative study of hate speech instigators and target users on Twitter. Through a multi-step classification process, we curate a comprehensive hate speech dataset capturing various types of hate. We study the distinctive characteristics of hate instigators and targets in terms of their profile self-presentation, activities, and online visibility. We find that hate instigators target more popular and high profile Twitter users, and that participating in hate speech can result in greater online visibility. We conduct a personality analysis of hate instigators and targets and show that both groups have eccentric personality facets that differ from the general Twitter population. Our results advance the state of the art of understanding online hate speech engagement. &lt;/p&gt; }, number={1}, journal={Proceedings of the International AAAI Conference on Web and Social Media}, author={ElSherief, Mai and Nilizadeh, Shirin and Nguyen, Dana and Vigna, Giovanni and Belding, Elizabeth}, year={2018}, month={Jun.} }
+
+@article{DBLP:Chaudhry,
+  author    = {Prateek Chaudhry and
+               Matthew Lease},
+  title     = {You Are What You Tweet: Profiling Users by Past Tweets to Improve
+               Hate Speech Detection},
+  journal   = {CoRR},
+  volume    = {abs/2012.09090},
+  year      = {2020},
+  url       = {https://arxiv.org/abs/2012.09090},
+  eprinttype = {arXiv},
+  eprint    = {2012.09090},
+  timestamp = {Sat, 02 Jan 2021 15:43:30 +0100},
+  biburl    = {https://dblp.org/rec/journals/corr/abs-2012-09090.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 
-@Misc{py:python,
-  author =    {Guido van Rossum and others},
-  title =     {The {Python} programming language},
-  year =         {1991--},
-  url = "http://www.python.org/"
+@inproceedings{overall_best,
+  title={Detection of hate speech spreaders using convolutional neural networks},
+  author={Siino, Marco and Di Nuovo, Elisa and Tinnirello, Ilenia and La Cascia, Marco},
+  booktitle={CLEF},
+  year={2021}
+}
+
+@article{english_best,
+  title={Detection of Hate Speech Spreaders with BERT},
+  author={Dukic, David and Kr{\v{z}}ic, Ana Sovic},
+  year={2021}
+}
+
+
+%%%%%%%%%%%% MODELS %%%%%%%%%%%%
+@article{svm, author = {Cortes, Corinna and Vapnik, Vladimir}, title = {Support-Vector Networks}, year = {1995}, issue_date = {Sept. 1995}, publisher = {Kluwer Academic Publishers}, address = {USA}, volume = {20}, number = {3}, issn = {0885-6125}, url = {https://doi.org/10.1023/A:1022627411411}, doi = {10.1023/A:1022627411411}, abstract = {The support-vector network is a new learning machine for two-group classification problems. The machine conceptually implements the following idea: input vectors are non-linearly mapped to a very high-dimension feature space. In this feature space a linear decision surface is constructed. Special properties of the decision surface ensures high generalization ability of the learning machine. The idea behind the support-vector network was previously implemented for the restricted case where the training data can be separated without errors. We here extend this result to non-separable training data.High generalization ability of support-vector networks utilizing polynomial input transformations is demonstrated. We also compare the performance of the support-vector network to various classical learning algorithms that all took part in a benchmark study of Optical Character Recognition.}, journal = {Mach. Learn.}, month = sep, pages = {273–297}, numpages = {25}, keywords = {pattern recognition, neural networks, efficient learning algorithms, radial basis function classifiers, polynomial classifiers} }
+
+@INPROCEEDINGS{rf,
+  author={ {Tin Kam Ho}},
+  booktitle={Proceedings of 3rd International Conference on Document Analysis and Recognition}, 
+  title={Random decision forests}, 
+  year={1995},
+  volume={1},
+  number={},
+  pages={278-282 vol.1},
+  doi={10.1109/ICDAR.1995.598994}}
+
+@inproceedings{xgboost, 
+ author = {Chen, Tianqi and Guestrin, Carlos}, 
+ title = {{XGBoost}: A Scalable Tree Boosting System}, 
+ booktitle = {Proceedings of the 22nd ACM SIGKDD International Conference on Knowledge Discovery and Data Mining}, 
+ series = {KDD '16}, 
+ year = {2016}, 
+ isbn = {978-1-4503-4232-2}, 
+ location = {San Francisco, California, USA}, 
+ pages = {785--794}, 
+ numpages = {10}, 
+ url = {http://doi.acm.org/10.1145/2939672.2939785}, 
+ doi = {10.1145/2939672.2939785}, 
+ acmid = {2939785}, 
+ publisher = {ACM}, 
+ address = {New York, NY, USA}, 
+ keywords = {large-scale machine learning}, 
+}
+
+@article{lightgbm,
+  title={Lightgbm: A highly efficient gradient boosting decision tree},
+  author={Ke, Guolin and Meng, Qi and Finley, Thomas and Wang, Taifeng and Chen, Wei and Ma, Weidong and Ye, Qiwei and Liu, Tie-Yan},
+  journal={Advances in neural information processing systems},
+  volume={30},
+  pages={3146--3154},
+  year={2017}
+}
+
+@inproceedings{glove,
+    title = "{G}lo{V}e: Global Vectors for Word Representation",
+    author = "Pennington, Jeffrey  and
+      Socher, Richard  and
+      Manning, Christopher",
+    booktitle = "Proceedings of the 2014 Conference on Empirical Methods in Natural Language Processing ({EMNLP})",
+    month = oct,
+    year = "2014",
+    address = "Doha, Qatar",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/D14-1162",
+    doi = "10.3115/v1/D14-1162",
+    pages = "1532--1543",
+}
+@article{lstm,
+  title={Long short-term memory},
+  author={Hochreiter, Sepp and Schmidhuber, J{\"u}rgen},
+  journal={Neural computation},
+  volume={9},
+  number={8},
+  pages={1735--1780},
+  year={1997},
+  publisher={MIT Press}
+}
+@misc{adamw,
+      title={Decoupled Weight Decay Regularization}, 
+      author={Ilya Loshchilov and Frank Hutter},
+      year={2019},
+      eprint={1711.05101},
+      archivePrefix={arXiv},
+      primaryClass={cs.LG}
+}
+
+
+
+
+@misc{bert,
+      title={BERT: Pre-training of Deep Bidirectional Transformers for Language Understanding}, 
+      author={Jacob Devlin and Ming-Wei Chang and Kenton Lee and Kristina Toutanova},
+      year={2019},
+      eprint={1810.04805},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+
+@misc{roberta,
+      title={RoBERTa: A Robustly Optimized BERT Pretraining Approach}, 
+      author={Yinhan Liu and Myle Ott and Naman Goyal and Jingfei Du and Mandar Joshi and Danqi Chen and Omer Levy and Mike Lewis and Luke Zettlemoyer and Veselin Stoyanov},
+      year={2019},
+      eprint={1907.11692},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
+}
+
+@misc{albert,
+      title={ALBERT: A Lite BERT for Self-supervised Learning of Language Representations}, 
+      author={Zhenzhong Lan and Mingda Chen and Sebastian Goodman and Kevin Gimpel and Piyush Sharma and Radu Soricut},
+      year={2020},
+      eprint={1909.11942},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL}
 }

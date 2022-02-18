@@ -1,0 +1,9 @@
+We have analyzed the dataset in Chapter \ref{chap:dataset} (Section \ref{sec:dataset:eda}), developed several baselines in Chapter \ref{chap:models} and discussed their results in Chapter \ref{chap:results}. We obtained the best accuracy of 69\% on the test set, which is six points lower than the best performing model on English tweets. However, these models did not make use of any external knowledge. The pre-processing pipeline was also kept simple and had minimal steps (for instance, we did not use any internet slang dictionary, emotional quotient features, spelling correction, etc.).
+
+We also observed in Section \ref{sec:results:feat-extr} that the "negative sentiment" feature has the highest importance among the different features. We also linked it to the characteristic of the Hate Speech itself, i.e., since it implies abuse or harm, it must have a high negative sentiment score. We plan to exploit this observation in our future works.
+
+As the next step, we plan to assign weights to words that appear in the tweets based on the sentiment score after removing stop words and take a weighted average of the word embeddings\eat{, in contrast to the simple average in our baselines,} to get the user-level representation for classification.
+
+% feature selection in feature-based baseline
+% word embeddings
+% using sentiment

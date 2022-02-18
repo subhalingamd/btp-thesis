@@ -1,0 +1,176 @@
+
+\section{Overview}
+\label{sec:dataset:overview}
+The present work has used the dataset from PAN @ CLEF 2021 Profiling Hate Speech Spreaders on Twitter \cite{pan21dataset} competition. This corpus has been built by first looking for the users considered potential haters based on two approaches-- (i) \emph{keyword-based} (e.g., searching for hateful words mainly towards women or immigrants); (ii) \emph{user-based}, by inspecting users known as haters (e.g., users appearing in reports and/or
+press) and following their networks. Then, the timelines were collected for these identified users, and the tweets conveying hate were manually annotated. Lastly, those users with more than ten hateful tweets have been labelled as “keen to spread hate speech”.
+
+The corpus consists of tweets from 300 Twitter users for each of the two languages, English and Spanish. Corresponding to each account, there are 200 tweets, collected and collated together in an XML file. The binary class 0 represents those users who are not keen to spread hate, while the binary class 1 represents those users who are keen to spread hate. The corpus is also completely balanced with respect to class instances with each of the labels having exactly 150 Twitter user accounts\eat{ per language identified as spreaders of Hate Speech}, and has already been split into training and test sets in the ratio 2:1. These statistics are tabulated in Table \ref{tab:dataset:corpus-distr}
+
+% % Please add the following required packages to your document preamble:
+% % \usepackage{multirow}
+% \begin{table}[htpb]
+% \centering
+% \begin{tabular}{|l|ll|ll|}
+% \hline
+% \multirow{2}{*}{\textbf{Language}} & \multicolumn{2}{c|}{\textbf{Training set}} & \multicolumn{2}{c|}{\textbf{Test set}} \\ \cline{2-5} 
+%  & \multicolumn{1}{l|}{\textbf{Class 0}} & \textbf{Class 1} & \multicolumn{1}{l|}{\textbf{Class 0}} & \textbf{Class 1} \\ \hline
+% \textbf{English} & \multicolumn{1}{l|}{100} & 100 & \multicolumn{1}{l|}{50} & 50 \\ \hline
+% \textbf{Spanish} & \multicolumn{1}{l|}{100} & 100 & \multicolumn{1}{l|}{50} & 50 \\ \hline
+% \end{tabular}
+% \caption{Distribution of number of user accounts in the corpus\eat{.\emph{Class 0} corresponds to non-hate spreaders and \emph{Class 1} corresponds to hate-spreaders.}}
+% \label{tab:dataset:corpus-distr}
+% \end{table}
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+ & \textbf{Class 0} & \textbf{Class 1} \\ \hline
+\textbf{Training set} & 100 & 100 \\ \hline
+\textbf{Test set} & 50 & 50 \\ \hline
+\end{tabular}
+\caption{Distribution of number of user accounts in the corpus\eat{.\emph{Class 0} corresponds to non-hate spreaders and \emph{Class 1} corresponds to hate-spreaders.}}
+\label{tab:dataset:corpus-distr}
+\end{table}
+
+
+Each user account is mapped to a unique alphanumeric author ID to ensure anonymity. Further, potential information containing keywords have been masked with special tokens. Particularly, hashtags, user mentions, retweets and URL links have been replaced with \maskHashtag{}, \maskUser{}, \maskRtOld{} and \maskUrl{} respectively. The format of the data in the dataset is discussed in Section \ref{sec:dataset:format} and some examples from the dataset are listed in Section \ref{sec:dataset:examples}. 
+
+In this work, the focus is on the tweets from the English language only. In all our experiments, we do not use any part of the test set during the entire course of training, including for hyper-parameter fine-tuning. We evaluate the performance of our models with this test set (Chapter \ref{chap:results}).
+
+% In all our experiments, the test set is kept hidden during the entire course of training to prevent data leak, i.e., no part of the test set has been used for training or hyper-parameter fine-tuning. Final performance is reported on the hidden test set, provided by the organizers of the PAN@CLEF challenge on special request.
+
+
+\subsection{Format}
+\label{sec:dataset:format}
+The uncompressed dataset consists in a folder per language. Each folder contains: (i) a XML file per Twitter user account (the name of the XML file correspond to the unique masked author ID); (ii) a \texttt{truth.txt} file with the list of authors and the ground truth.
+
+The format of the XML files is as follows:
+\begin{verbatim}
+    <author lang="en">
+        <documents>
+            <document>Tweet 1 textual contents</document>
+            <document>Tweet 2 textual contents</document>
+            ...
+        </documents>
+    </author>
+\end{verbatim}
+
+In \texttt{truth.txt}, the first column corresponds to the author ID and the second column contains the truth label. The format of file is as follows:
+\begin{verbatim}
+    b2d5748083d6fdffec6c2d68d4d4442d:::0
+    2bed15d46872169dc7deaf8d2b43a56:::0
+    8234ac5cca1aed3f9029277b2cb851b:::1
+    5ccd228e21485568016b4ee82deb0d28:::0
+    60d068f9cafb656431e62a6542de2dc0:::1
+\end{verbatim}
+
+\subsection{Examples}
+\label{sec:dataset:examples}
+For illustration, some tweets from users of each class are shown in Table \ref{tab:dataset:examples}.
+
+\begin{table}[htbp]
+\centering
+\begin{tabular}{p{7cm}p{1cm}p{7cm}} \hline
+\textbf{Class 0} & & \textbf{Class 1}  \\ \hline
+RT \#USER\#: When i go on trips i need airport outfits, day outfits, night outfits, sleeping outfits. Idk why im like this �� & & RT \#USER\#: People don't believe in Big Foot, but they believe Biden got 80 million votes \#URL\# \\ 
+&&\\
+RT \#USER\#: I pray I don’t mishandle what I prayed for... & & RT \#USER\#: Remember that these two liars SPIED ON PRESIDENT TRUMP. They got CAUGHT. And they still lost. \#URL\# \\
+&&\\
+RT \#USER\#: I be on websites accepting cookies not even knowing what that is��☠️☠️ & & RT \#USER\#: HAPPY HALLOWEEN �� �� **Don’t get tricked, know who you’re voting for...** \#HASHTAG\# \#URL\# \\ \hline
+\end{tabular}
+\caption{Sample tweets by\eat{a particular} users from each class}
+\label{tab:dataset:examples}
+\end{table}
+
+\section{Exploratory Data Analysis}
+\label{sec:dataset:eda}
+
+\subsection{Preliminary pre-processing}
+\label{sec:dataset:pre-processing}
+To get started, we have to parse the dataset. Since, every retweet was followed by a user mention, possibly denoting the original author for the tweet, we replace every occurrences of \texttt{\#RT\# \#USER\#: } at the beginning of every tweet with \texttt{\#\#RT\#\#: }\footnote{To distinguish between the masked token placeholders we add and those already present, we enclose them between two hashes (i.e., \texttt{\#\#...\#\#}) instead of just one (i.e., \texttt{\#...\#}).} to distinguish between a retweet and an actual user mention.
+
+% Each retweet begins as "RT \#USER\#: ". We replace this with "\#\#RT\#\#". Hence, in the numbers reported in this work, we do not account for the "\#USER\#" that comes with "RT" for the \#USER\# count. Similarly, the string "\#\#RT\#\#" is taken into account while counting the number of characters and words, and other linguistic features. Moreover, in this section, we only treat spaces as word separators without adhering to any other heuristics as we expect a space after each punctuation.
+
+\subsection{Feature Extraction}
+\label{sec:dataset:feat-extr}
+% We extracted some features that we thought were relevant to our task and analyse their distribution. These included:
+We first list down different features we extracted for each user.
+
+\paragraph{User stylistic features:} These included hashtags, user mentions, URLs and retweets. The counts for these can be obtained by simply counting the occurrences of \maskHashtag{}, \maskUser{}, \maskUrl{} and \maskRt{}.
+
+\paragraph{Statistical stylistic features: } For each user, we calculated the number of uppercase, minimum, maximum and total number of characters/words in his/her tweets. Since we do not have the exact hashtags, user mentions, URLs and retweets information, the respective placeholders were removed while computing the character-level statistics. In case of computing word-level statistics, we only removed the retweet placeholder (as they are not actually part of the tweet) and retained the placeholders for hashtags, user mentions and URLs (as each of them would only be a single word if left unmasked). Moreover, we only treat white-spaces as word separators without adhering to any other heuristics (as we expect a space after every punctuation but not before it).
+
+\paragraph{Emoticons:} We computed the number of emoticons used by each user using the demoji\footnote{\url{https://pypi.org/project/demoji/}} library of Python.
+
+\paragraph{Stopwords:} We observed the number of stopwords used by each user using the list of English stopwords from the SpaCy library \cite{spacy} in Python.
+
+\paragraph{Named-Entity Mentions:} This involved identifying different named entities present in the tweets of different users and locating them into four major categories-- Persons (PER), Organizations (ORG), Locations (LOC) and Miscellaneous/None of the above (MISC), This was done using the NER model trained on \texttt{xx\_ent\_wiki\_sm}  corpus from the SpaCy library in Python.
+
+\paragraph{Sentiments:} This involved identifying the sentiment-- positive, negative or neutral, implied in each tweet of the tweets. We used the TextBlob library \cite{textblob} in Python for obtaining the sentiments.
+
+
+% We present the values corresponding to each of the aforementioned lists of features for each user in training set in Appendix \ref{chap:per-user-stats}, and summarize these results by only presenting their sum or average for each class in Table \ref{tab:dataset:eda-overall}.\eat{ restrict ourselves to only the sum for each of these features.}
+
+%% We present the values corresponding to each feature mentioned above for each user in training set in Appendix \ref{chap:per-user-stats} and provide an overview (either summing or averaging the values in each feature) for both the classes in Table \ref{tab:dataset:eda-overall}.
+We sum the feature values of all users for each class and present an overview\footnote{Feature values for each user can be downloaded from \url{https://subhalingamd.me/btp-hate-speech-profiling/resources/data_pan21_train_en_features.tsv}} of the statistics for some of the features in Table \ref{tab:dataset:eda-overall}.
+
+
+\begin{table}[h]
+    \centering
+    \begin{tabular}{l|rr}
+        \hline
+        \textbf{Features} & \textbf{Class 0} & \textbf{Class 1} \\
+        %% & Hate &   \\
+        \hline
+        \maskHashtag{}\eat{\#HASHTAG\#} & 3757 & 3392 \\
+        \maskUrl{}\eat{\#URL\#} & 8571 & 6768 \\
+        \maskUser{}\eat{\#USER\#} & 9723 & 11571 \\
+        \maskRt{}\eat{\#\#RT\#\#} & 7633 & 6090 \\
+        \hline
+        Upper case characters & 71025 & 75867 \\
+        Number of characters & 1109779 & 1134313 \\
+        %Min number of characters* & 10.28 & 10.55 \\
+        %Max number of character* & 125.08 & 128.2 \\
+        
+        Upper case words & 43584 & 44012 \\
+        Number of words  & 228644 & 234867 \\
+        %Min number of words* & 3.29 & 3.5 \\
+        %Max number of words* & 25.37 & 26.07 \\
+        \hline
+        Emoticons & 8792 & 7446 \\
+        \hline
+        Stop-words & 95998 & 101886 \\
+        \hline
+        % PERSON	& 3809 & 3695  \\
+        % ORG		& 4586 & 4226 \\
+        % GPE+LOC	& 1966+106 & 1839+98 \\
+        % MISC	& 30469 & 27709 \\
+        
+        PER & 4672 & 4743 \\
+        ORG & 2611 & 2387 \\
+        LOC & 2437 & 2132 \\
+        MISC & 6458 & 6534 \\
+        \hline
+        Positive sentiment & 6385 & 6163 \\
+        Negative sentiment & 3679 & 4482 \\
+        Neutral sentiment & 9936 & 9355 \\
+        \hline
+    \end{tabular}
+    \caption{Extracted features values overview\eat{\sdaltcomment{TODO: update everything in average per user per tweet??}}}
+    \label{tab:dataset:eda-overall}
+\end{table}
+
+
+\subsection{Observations}
+\label{sec:dataset:eda-obs}
+\paragraph{Distinction between the classes based on extracted features:} 
+It can be observed that Hate Speech spreaders tend to use a remarkably fewer number of URL links (\maskUrl{}) and more number of user mentions (\maskUser{}). They also retweet (\maskRt{}) fewer times and have more tweets that carry negative sentiments. Some notable differences in the number of emoticons and stopwords used can also be observed.
+
+\paragraph{Ratio of distinct tweets:}
+We obtained the number of distinct tweets among the 200 of them for each user and observed that a user who is not keen to spread hate speech had as low as 31 (15.5\%) distinct tweets. While looking at the tweets, we observed that most of them were updates about new followers (e.g., "2 people followed me…"). Only 64 users from class 0 and 69 users from class 1 have all the 200 tweets different. The frequency distribution of the ratio of distinct tweets to total number of tweets is documented in Appendix \ref{chap:distinct-tweets-ratio}.
+
+\paragraph{Multilingual and code-mixed tweets:} While skimming the tweets in the dataset, we observed some tweets containing characters from non-English languages (e.g., Kannada). Hence, we expect models trained on a multi-lingual corpus to perform better than those trained only on an English corpus. This is also the reason behind choosing the \texttt{xx\_ent\_wiki\_sm} corpus instead of an English-only corpus like \texttt{en\_core\_web\_sm} for finding named-entity mentions.
+
+% \section{Related datasets}
+

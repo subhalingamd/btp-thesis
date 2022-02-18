@@ -201,7 +201,7 @@
     }
   \end{center}%
 
-  \centerline{\includegraphics[height=1.5in,width=1.5in, keepaspectratio]{iitd_logo.png}}
+  \centerline{\includegraphics[height=1.5in,width=1.5in, keepaspectratio]{assets/iitd_logo.png}}
   \vspace*{-0.15in}
   \begin{center}
     {\bf \large Department Of \@department\par}

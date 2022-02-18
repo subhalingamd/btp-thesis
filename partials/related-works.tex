@@ -1,0 +1,17 @@
+
+There have been several works on Hate Speech detection in recent times. \cite{methodsSurvey} surveys different approaches in the literature and analyzes them. The proposed models range from using hand-crafted features based on linguistics, user stylistics, distributional semantics, etc., to leveraging data-driven approaches using traditional machine learning-based classifiers and deep learning-based architectures. 
+
+While several works concentrate on classifying whether a given text contains hate or not, a few of them, apart from submissions in PAN @ CLEF 2021 competition, also study user-activity patterns to flag user accounts involved in spreading hate. ElSherief et al. \cite{ElSherief} analyzed the distinctive characteristics of hate instigators and targets based on their profiles, activities and online visibility. They observed that the targets are usually from high-profile backgrounds and that online visibility increases by participating in hate-spreading activities. Chaudhry and Lease \cite{DBLP:Chaudhry} studied the use of past utterances as informative prior to improving prediction on new utterances and observed promising results.
+
+
+In the competition, the overall best performing model \cite{overall_best} leveraged a 100-dimension word embedding representation to feed a \ac{CNN}. Some transformer-based models that were used include \ac{BERT} \cite{bert}, \ac{RoBERTa} \cite{roberta}, \ac{ALBERT} \cite{albert}, etc.\eat{Irani et al. [cite] aggregated document topics and combined them with ELMo representations to represent the users.} The best performing model \cite{english_best} for English language (75\%) used \ac{BERT} and \ac{LR}.
+
+
+% XY teams participated
+% top perfoming models in english used transformer encoders
+% ....
+
+% \eat{}
+% other datasets for hs recognization include...
+% these have labels at tweet level...
+% we plan to use them to fine-tune encoders that work on tweet level

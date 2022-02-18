@@ -1,0 +1,178 @@
+\section{Overview}
+\label{sec:models:overview}
+We pre-process the dataset according to Section \ref{sec:models:pre-processing} and generate a TSV file containing the ground truth label and tweets. We directly use the data from this TSV file for all our experiments, possibly with additional pre-processing steps as specified in the respective setups. We use the Pandas \cite{pandas} library for processing the data. We develop several baselines (discussed in Section \ref{sec:models:baselines}) and organize them in different subsections based on the technique used for representing each user.
+
+% give example of schema
+
+\section{Pre-processing}
+\label{sec:models:pre-processing}
+The data pre-processing pipeline consists of the following steps:
+\begin{itemize}
+    \item Replace every occurrences of  \texttt{\#RT\# \#USER\#: } at the beginning of every tweet (if it exists) with \texttt{\#\#RT\#\#: } to distinguish between a retweet and an actual user mention (as discussed in Section \ref{sec:dataset:pre-processing}).
+    \item Replace emoticons with \maskEmoji{} placeholder. The Python library demoji is used to find different emoticons.
+    \item Convert texts in tweets to lower case, except for the placeholders (i.e., \maskHashtag{}, \maskUser{}, \maskUrl{}, \maskRt and \maskEmoji{} are left intact in upper case).
+    \item Remove majority of the non-alphanumeric symbols (except '\#').\eat{(e.g. punctuations, brackets, etc.}
+    \item Normalize line-breaks and multiple white-spaces to single white-space.
+\end{itemize}
+
+\section{Baselines}
+\label{sec:models:baselines}
+% \sdaltcomment{cite-- lr, tf-idf, count, nb....}
+
+\subsection{Term-frequency based representation}
+\label{sec:models:tf-idf}
+
+In this setup, we merge all the tweets of each user into a single paragraph. To summarize, we now have a paragraph (of tweets) and a ground truth label for each user.
+
+We obtain a sparse vector representation using the paragraph of tweets for each user based on two approaches-- (i) Count Vectorizer and (ii) \ac{TF-IDF} Vectorizer. We build a vocabulary based on the tokens that appear in all the texts in both these approaches. The former only considers the number of times a token appears in the text, resulting in a bias towards frequently occurring tokens. The latter overcomes this by also considering the number of texts containing the token and penalizing the frequently occurring tokens. The minimum and maximum number of times a token must appear in the collection of texts to be included in the vocabulary is a hyper-parameter that we fine-tune (hence, no stopword removal was performed explicitly). We also fine-tune the best n-gram range for building the vocabulary. The final representation does not capture the ordering between the tweets and between the tokens in each tweet.
+
+We train different statistical machine learning models to classify the given user as "keen to spread Hate Speech" or not based on the extracted representation. Specifically, we use \ac{LR}, \ac{SVM} \cite{svm}, \ac{NB}, \ac{RF} \cite{rf}, \ac{XGB} \cite{xgboost} and \ac{LGBM} \cite{lightgbm}. We do not report the performance for \ac{XGB} and \ac{LGBM} with Count Vectorizer for the time being because of the very long time taken for hyper-parameter fine-tuning.
+%% \sdcomment{We do not report the performance for \ac{XGB} and \ac{LGBM} with Count Vectorizer for the time being because of the very long time taken for hyper-parameter fine-tuning.}
+
+\paragraph{Setup:} We build the entire model pipeline in Python using the scikit-learn \cite{scikit-learn} library and perform a grid search to fine-tune the hyper-parameters with repeated 10-fold cross-validation. The list of hyper-parameter used for fine-tuning is given in Table \ref{tab:models:hparams-tf-based}. The performance of these models is discussed in Section \ref{sec:results:tf-idf}.
+
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+\begin{table}[htbp]
+\begin{subtable}{\textwidth}
+\centering
+\begin{tabular}{llrr}
+\hline
+\textbf{Model} & \textbf{Hyper-parameter} & \textbf{Values} \\
+\hline
+\multirow{5}{*}{Count Vectorizer} & max\_df & \{0.75, 1.0\} &  \\
+ & min\_df & \{2, 3, 5, 7, 10\} & for \ac{LR}, \ac{SVM}, \ac{NB}, \ac{RF} \\
+ &  & \{2, 5, 10\} & otherwise* \\
+ & ngram\_range & \{(1,1), (1,2), (2,2)\} & for \ac{LR}, \ac{SVM}, \ac{NB}, \ac{RF} \\
+ &  & \{((1,1), (1,2)\} & otherwise* \\ \hline
+\multirow{5}{*}{TF-IDF Vectorizer} & max\_df & \{0.75, 1.0\} &  \\
+ & min\_df & \{2, 3, 5, 7, 10\} & for \ac{LR}, \ac{SVM}, \ac{NB}, \ac{RF} \\
+ &  & \{2, 5, 10\} & otherwise* \\
+ & ngram\_range & \{(1,1), (1,2), (2,2)\} & for \ac{LR}, \ac{SVM}, \ac{NB}, \ac{RF} \\
+ &  & \{((1,1), (1,2)\} & otherwise* \\ \hline
+\end{tabular}
+\caption{Vectorizers \emph{(*The grid size has been reduced because of models' high computational cost)} }
+\vspace{1cm}
+\end{subtable}
+\begin{subtable}{\textwidth}
+\centering
+\begin{tabular}{llr}
+\hline
+\textbf{Model} & \textbf{Hyper-parameter} & \textbf{Values} \\
+\hline
+\multirow{3}{*}{LR} & C & \{0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10.0\} \\
+ & penalty & \{'l1', 'l2'\} \\
+ & solver & \{'saga'\} \\
+\hline
+\multirow{2}{*}{SVM} & C & \{0.1, 0.5, 1.0, 2.0, 5.0, 10.0, 50.0\} \\
+ & kernel & \{'rbf', 'linear'\} \\
+\hline
+\multirow{2}{*}{NB} & alpha & 25 equally spaced numbers from \\ & & interval {[}-5, 1{]} on log scale \\
+\hline
+\multirow{6}{*}{RF} & bootstrap & \{True\} \\
+ & max\_depth & \{None, 5.0, 10.0, 50.0, 100.0\} \\
+ & max\_features & \{'auto'\} \\
+ & min\_samples\_leaf & \{1, 2, 4\} \\
+ & n\_estimators & \{20, 50, 100, 200, 500\} \\
+ & oob\_score & \{True\} \\
+\hline
+\multirow{5}{*}{XGB} & colsample\_bytree & \{0.6, 0.8\} \\
+ & eta & \{0.05, 0.1, 0.3\} \\
+ & max\_depth & \{3, 5, 7\} \\
+ & n\_estimators & \{100, 200, 300\} \\
+ & subsample & \{0.6, 0.8\} \\
+\hline
+\multirow{5}{*}{LGBM} & boosting\_type & \{'dart'\} \\
+ & colsample\_bytree & \{0.6, 0.8\} \\
+ & learning\_rate & \{0.05, 0.1, 0.3\} \\
+ & n\_estimators & \{50, 100, 200\} \\
+ & subsample & \{0.6, 0.8\} \\
+\hline
+\end{tabular}
+\caption{Classifiers}
+\end{subtable}
+\caption{List of hyper-parameters used for fine-tuning Term-frequency based representation models in Section \ref{sec:models:tf-idf}}
+\label{tab:models:hparams-tf-based}
+\end{table}
+% \sdaltcomment{replace hparams name...?}
+%%% \eat{\sdaltcomment{verify values before final submission...}}
+
+\subsection{Features based representation}
+\label{sec:models:feat-based}
+In this setup, we use the list of features mentioned in Section \ref{sec:dataset:feat-extr} to construct the vector representation for each user and feed this vector into a machine learning classifier. We experiment with different models, namely \ac{LR}, \ac{SVM}, \ac{NB}, \ac{RF}, \ac{XGB} and \ac{LGBM}. 
+
+\paragraph{Setup:} We build the entire model pipeline in Python using the scikit-learn \cite{scikit-learn} library and perform a grid search to fine-tune the hyper-parameters with repeated 10-fold cross-validation. The list of hyper-parameter used for fine-tuning is given in Table \ref{tab:models:hparams-feat-based}. The performance of these models is discussed in Section \ref{sec:results:feat-extr}.
+
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+\begin{table}[ht]
+\centering
+\begin{tabular}{llr}
+\hline
+\textbf{Model} & \textbf{Hyper-parameter} & \textbf{Values} \\
+\hline
+\multirow{3}{*}{LR} & C & \{0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10.0, 20.0, 50.0, 100.0\} \\
+ & penalty & \{'l1', 'l2'\} \\
+ & solver & \{'liblinear', 'saga'\} \\
+\hline
+\multirow{2}{*}{SVM} & C & \{0.1, 0.2, 0.5, 1.0, 2.0, 5.0, 10.0, 20.0, 50.0, 100.0\} \\
+ & kernel & \{'rbf', 'linear'\} \\
+\hline
+\multirow{2}{*}{NB} & alpha & 25 equally spaced numbers from \\ & & interval {[}-5, 1{]} on log scale \\
+\hline
+\multirow{6}{*}{RF} & bootstrap & \{True\} \\
+ & max\_depth & \{None, 5.0, 10.0, 50.0, 100.0\} \\
+ & max\_features & \{'auto'\} \\
+ & min\_samples\_leaf & \{1, 2, 4\} \\
+ & n\_estimators & \{20, 50, 100, 200, 500\} \\
+ & oob\_score & \{True\} \\
+\hline
+\multirow{5}{*}{XGB} & colsample\_bytree & \{0.6, 0.8, 1.0\} \\
+ & eta & \{0.05, 0.1, 0.3\} \\
+ & max\_depth & \{3, 5, 7\} \\
+ & n\_estimators & \{100, 200, 300\} \\
+ & subsample & \{0.6, 0.8, 1.0\} \\
+\hline
+\multirow{5}{*}{LGBM} & boosting\_type & \{'gbdt', 'dart'\} \\
+ & colsample\_bytree & \{0.6, 0.8, 1.0\} \\
+ & learning\_rate & \{0.05, 0.1, 0.3\} \\
+ & n\_estimators & \{50, 100, 200\} \\
+ & subsample & \{0.6, 0.8, 1.0\} \\
+\hline
+\end{tabular}
+\caption{List of hyper-parameters used for fine-tuning Features based representation models in Section \ref{sec:models:feat-based}}
+\label{tab:models:hparams-feat-based}
+\end{table}
+
+
+\subsection{Word-embedding based representation}
+\label{sec:models:word-emb-based}
+
+We do not merge the tweets in this setup, unlike in Section \ref{sec:models:tf-idf}. Instead, we use pre-trained word embeddings and obtain a vector representation for each tweet. We treat all the tweets by the user as a sequence and use \ac{RNN}-based architecture to classify each user finally. It is analogous to considering each user as a "sentence" and each tweet as a "token" in a traditional setting. We explain the procedure we use for getting the representations.
+
+We use the \ac{GloVe} \cite{glove} word embeddings pre-trained on 2B tweets. These embeddings are dense representations in contrast to vectorization methods used in Section \ref{sec:models:tf-idf}. \ac{GloVe} can capture words that appear in similar contexts as well as words that appear in the context of each other. We replace all the \maskEmoji placeholders and remaining punctuations with white spaces and normalize the white spaces again for each tweet. This includes the '\texttt{\#}' symbols that are present in the placeholders. We split the words at white spaces and get the corresponding \ac{GloVe} word embedding. To retain the same dimension size for all the tweet representations, we aggregate (or pool) all the vectors we obtain for each word in a particular tweet to obtain a single vector of the same dimension. We use one of the following four techniques to build up this vector dimension-wise-- (i) mean-pooling (take the mean of values in the dimension); (ii) max-pooling (take the maximum value in the dimension); (iii) min-pooling (take the minimum value in the dimension); and (iv) abs-max-pooling (take the maximum in terms of the absolute value in the dimension). Upon pooling, we have a sequence of tweet representations for each user. We finally train a \ac{LSTM} model \cite{lstm} for classification.
+
+
+\paragraph{Setup:} We build the entire model pipeline in Python using the PyTorch \cite{pytorch} library with PyTorch Lightning \cite{pytorch_lightning} wrapper and use the Gensim \cite{gensim} library for obtaining the \ac{GloVe} word embeddings. We particularly experiment with 25-dimensional and 200-dimensional \ac{GloVe} embeddings pre-trained on tweets. The given training set was split in the ratio of 9:1 and used the smaller portion as the validation set. The embedding layer was frozen, and we chose the values for hyper-parameters rather than fine-tuning. The values of hyper-parameters used are tabulated in Table \ref{tab:models:hparams-word-emb-based}. AdamW \cite{adamw} was used as the optimizer with a learning rate of 0.001. The validation set was used for early stopping (with a patience of 3). The random states were seeded with a value of 42 to ensure reproducibility. The performance of these models is discussed in Section \ref{sec:results:word-emb}.
+
+%% BCE loss
+%% non-contextual
+
+
+% Please add the following required packages to your document preamble:
+% \usepackage{multirow}
+\begin{table}[htbp]
+\centering
+\begin{tabular}{llr}
+\hline
+\textbf{Entity} & \textbf{Hyper-parameter} & \textbf{Values} \\
+\hline
+Embedding & Dimensions & \{25, 200\} \\ \hline
+\multirow{2}{*}{LSTM} & Hidden states & 8 \\
+ & Bidirectional & True \\ \hline
+MLP & Dimensions & 8 $\times$ 1 \\ \hline
+AdamW & LR & 0.001 \\ \hline
+\end{tabular}
+\caption{Hyper-parameters values used in Word-embedding based representation models in Section \ref{sec:models:word-emb-based}}
+\label{tab:models:hparams-word-emb-based}
+\end{table}
