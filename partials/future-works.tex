@@ -1,9 +1,37 @@
-We have analyzed the dataset in Chapter \ref{chap:dataset} (Section \ref{sec:dataset:eda}), developed several baselines in Chapter \ref{chap:models} and discussed their results in Chapter \ref{chap:results}. We obtained the best accuracy of 69\% on the test set, which is six points lower than the best performing model on English tweets. However, these models did not make use of any external knowledge. The pre-processing pipeline was also kept simple and had minimal steps (for instance, we did not use any internet slang dictionary, emotional quotient features, spelling correction, etc.).
+We focused on identifying those user accounts on Twitter that are keen to spread Hate Speech in this work.
+We described the dataset used and performed an exploratory data analysis in Chapter \ref{chap:dataset}. We also extracted several features, such as user and stylistic features, sentiments, emoticons, stopwords and named-entity mentions, and their several statistical properties. We used them for constructing baselines in the later sections.  
 
-We also observed in Section \ref{sec:results:feat-extr} that the "negative sentiment" feature has the highest importance among the different features. We also linked it to the characteristic of the Hate Speech itself, i.e., since it implies abuse or harm, it must have a high negative sentiment score. We plan to exploit this observation in our future works.
+In Chapter \ref{chap:models}, we built some baselines and proposed a novel model. The baselines included: (i) using the term frequencies (like \ac{TF-IDF} Vectorization) to obtain user representation from the tweet texts; (ii) using the handcrafted features to construct the user representation; (iii) using the \ac{GloVe} word embeddings to represent tweets and an \ac{LSTM} for classification; and (iv) using a two-stage system to flag the user as Hate Speech Spreader if the number of hate containing tweets is beyond a certain threshold.
+Our proposed model leveraged the pre-trained word embeddings for encoding the words and incorporated the sentiment scores as weights to mark the importance of the words. It computed a weighted sum to get the tweet representation and aggregated these to obtain the user representation, which was finally fed to an ML classifier like \ac{LR}, \ac{SVM}, \ac{RF}, \ac{XGB}, \ac{LGBM} or \ac{NN}. Finally, we constructed a max-voting classifier (ensemble) using the different models.
 
-As the next step, we plan to assign weights to words that appear in the tweets based on the sentiment score after removing stop words and take a weighted average of the word embeddings\eat{, in contrast to the simple average in our baselines,} to get the user-level representation for classification.
+We discussed the performance of different models in Chapter \ref{chap:results}. The best accuracy we obtained with the baseline models was 69\%. We also observed that the ``negative sentiment'' score had the highest feature importance in baselines developed using the handcrafted features (Section \ref{sec:results:feat-extr}), which further motivated us to work towards our proposed model. Our model achieved an accuracy of 76\% on the test set, which was 1\% more than the best performance obtained in the competition. The ensemble model consisting of \ac{TF-IDF}+\ac{LR}, \ac{RoBERTa} and \ac{LR} classifier with 25d \ac{GloVe} word embeddings from Sections \ref{sec:models:tf-idf}, \ref{sec:models:count-hate} and \ref{sec:models:our-model} achieved an accuracy of 77\%, a further 1\% increase. Finally, we performed an error analysis where we discussed some limitations of our model.
+
+In the future, we plan to conduct a deeper analysis of the results and investigate these models in more detail. We would also like to address some of the limitations discussed in Section \ref{sec:results:err-ana}.
+
+
+% Clearly, the fine-tuned  model and the  have the best performance in Section \ref{sec:results:count-hate} and Section \ref{sec:results:our-model}, respectively. However, since both \ac{TF-IDF}+\ac{LR} and \ac{TF-IDF}+\ac{SVM} have the same test accuracy in Section , 
+
+
+% While it is intuitive that tweets indicating hate tend to carry a high negative sentiment score, our experiments also show that the negative sentiment score is the most important feature among all other features considered. Our model achieves an accuracy of 76\% on the test set and outperforms the best model in the competition. We further improve the accuracy by creating an ensemble of models. In future, we plan to investigate these models in more detail.
+
+% , developed several baselines in Chapter \ref{chap:models} and discussed their results in Chapter \ref{chap:results}. We obtained the best accuracy of 69\% on the test set, which is six points lower than the best performing model on English tweets. However, these models did not make use of any external knowledge. The pre-processing pipeline was also kept simple and had minimal steps (for instance, we did not use any internet slang dictionary, emotional quotient features, spelling correction, etc.).
+
+% We also observed in Section \ref{sec:results:feat-extr} that the ``negative sentiment'' feature has the highest importance among the different features. We also linked it to the characteristic of the Hate Speech itself, i.e., since it implies abuse or harm, it must have a high negative sentiment score. We plan to exploit this observation in our future works.
+
+% As the next step, we plan to assign weights to words that appear in the tweets based on the sentiment score after removing stop words and take a weighted average of the word embeddings\eat{, in contrast to the simple average in our baselines,} to get the user-level representation for classification.
 
 % feature selection in feature-based baseline
 % word embeddings
 % using sentiment
+
+% - hate degree, frequency, ...
+
+% - HatEval2019 and Zerak datasets
+%     - baselines
+%     - ensemble
+%     - sota models (also low)
+%     - feature importance
+
+% - thresholding
+
+

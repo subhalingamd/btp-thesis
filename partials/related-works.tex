@@ -1,10 +1,17 @@
 
-There have been several works on Hate Speech detection in recent times. \cite{methodsSurvey} surveys different approaches in the literature and analyzes them. The proposed models range from using hand-crafted features based on linguistics, user stylistics, distributional semantics, etc., to leveraging data-driven approaches using traditional machine learning-based classifiers and deep learning-based architectures. 
+There have been several works on Hate Speech detection in recent times.
+One of the most popular dataset is the HatEval dataset \cite{hateval}, used in SemEval 2019\footnote{https://alt.qcri.org/semeval2019/} competition. We describe this dataset later in Section \ref{sec:models:count-hate}.
+\cite{methodsSurvey} surveys different approaches in the literature and analyzes them. The proposed models range from using hand-crafted features based on linguistics, user stylistics, distributional semantics, etc., to leveraging data-driven approaches using traditional machine learning-based classifiers and deep learning-based architectures. 
 
 While several works concentrate on classifying whether a given text contains hate or not, a few of them, apart from submissions in PAN @ CLEF 2021 competition, also study user-activity patterns to flag user accounts involved in spreading hate. ElSherief et al. \cite{ElSherief} analyzed the distinctive characteristics of hate instigators and targets based on their profiles, activities and online visibility. They observed that the targets are usually from high-profile backgrounds and that online visibility increases by participating in hate-spreading activities. Chaudhry and Lease \cite{DBLP:Chaudhry} studied the use of past utterances as informative prior to improving prediction on new utterances and observed promising results.
 
 
-In the competition, the overall best performing model \cite{overall_best} leveraged a 100-dimension word embedding representation to feed a \ac{CNN}. Some transformer-based models that were used include \ac{BERT} \cite{bert}, \ac{RoBERTa} \cite{roberta}, \ac{ALBERT} \cite{albert}, etc.\eat{Irani et al. [cite] aggregated document topics and combined them with ELMo representations to represent the users.} The best performing model \cite{english_best} for English language (75\%) used \ac{BERT} and \ac{LR}.
+In the competition, the overall best performing model \cite{overall_best} leveraged a 100-dimension word embedding representation to feed a \ac{CNN}.
+This system achieved an accuracy of 73\% on the English language test set.
+However, the best accuracy on the English language test set was 75\%, achieved using \ac{BERT} and \ac{LR}.
+Most of the top-performing models have leveraged a deep transformer architecture, like \ac{BERT}, for encoding the tweets.
+% The best performing model \cite{english_best} for English language (75\%) used \ac{BERT} and \ac{LR}.
+% Some transformer-based models that were used include \ac{BERT} \cite{bert}, \ac{RoBERTa} \cite{roberta}, \ac{ALBERT} \cite{albert}, etc.\eat{Irani et al. [cite] aggregated document topics and combined them with ELMo representations to represent the users.} 
 
 
 % XY teams participated

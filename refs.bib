@@ -227,3 +227,137 @@ year = {2019}
       archivePrefix={arXiv},
       primaryClass={cs.CL}
 }
+
+
+
+%%%%%%%%%% NEW %%%%%%%%%%%%%%%%
+%% DATASETS
+
+@InProceedings{zeerak,
+  author    = {Waseem, Zeerak  and  Hovy, Dirk},
+  title     = {Hateful Symbols or Hateful People? Predictive Features for Hate Speech Detection on Twitter},
+  booktitle = {Proceedings of the NAACL Student Research Workshop},
+  month     = {June},
+  year      = {2016},
+  address   = {San Diego, California},
+  publisher = {Association for Computational Linguistics},
+  pages     = {88--93},
+  url       = {http://www.aclweb.org/anthology/N16-2013}
+}
+
+@inproceedings{hateval,
+    title = "{S}em{E}val-2019 Task 5: Multilingual Detection of Hate Speech Against Immigrants and Women in {T}witter",
+    author = "Basile, Valerio  and
+      Bosco, Cristina  and
+      Fersini, Elisabetta  and
+      Nozza, Debora  and
+      Patti, Viviana  and
+      Rangel Pardo, Francisco Manuel  and
+      Rosso, Paolo  and
+      Sanguinetti, Manuela",
+    booktitle = "Proceedings of the 13th International Workshop on Semantic Evaluation",
+    month = jun,
+    year = "2019",
+    address = "Minneapolis, Minnesota, USA",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/S19-2007",
+    doi = "10.18653/v1/S19-2007",
+    pages = "54--63",
+    abstract = "The paper describes the organization of the SemEval 2019 Task 5 about the detection of hate speech against immigrants and women in Spanish and English messages extracted from Twitter. The task is organized in two related classification subtasks: a main binary subtask for detecting the presence of hate speech, and a finer-grained one devoted to identifying further features in hateful contents such as the aggressive attitude and the target harassed, to distinguish if the incitement is against an individual rather than a group. HatEval has been one of the most popular tasks in SemEval-2019 with a total of 108 submitted runs for Subtask A and 70 runs for Subtask B, from a total of 74 different teams. Data provided for the task are described by showing how they have been collected and annotated. Moreover, the paper provides an analysis and discussion about the participant systems and the results they achieved in both subtasks.",
+}
+
+%% MODELS
+@misc{roberta-finetuned,
+  doi = {10.48550/ARXIV.2010.12421},
+  
+  url = {https://arxiv.org/abs/2010.12421},
+  
+  author = {Barbieri, Francesco and Camacho-Collados, Jose and Neves, Leonardo and Espinosa-Anke, Luis},
+  
+  keywords = {Computation and Language (cs.CL), Social and Information Networks (cs.SI), FOS: Computer and information sciences, FOS: Computer and information sciences},
+  
+  title = {TweetEval: Unified Benchmark and Comparative Evaluation for Tweet Classification},
+  
+  publisher = {arXiv},
+  
+  year = {2020},
+  
+  copyright = {arXiv.org perpetual, non-exclusive license}
+}
+
+@misc{attention,
+  doi = {10.48550/ARXIV.1706.03762},
+  
+  url = {https://arxiv.org/abs/1706.03762},
+  
+  author = {Vaswani, Ashish and Shazeer, Noam and Parmar, Niki and Uszkoreit, Jakob and Jones, Llion and Gomez, Aidan N. and Kaiser, Lukasz and Polosukhin, Illia},
+  
+  keywords = {Computation and Language (cs.CL), Machine Learning (cs.LG), FOS: Computer and information sciences, FOS: Computer and information sciences},
+  
+  title = {Attention Is All You Need},
+  
+  publisher = {arXiv},
+  
+  year = {2017},
+  
+  copyright = {arXiv.org perpetual, non-exclusive license}
+}
+
+
+@inproceedings{fermi,
+    title = "{FERMI} at {S}em{E}val-2019 Task 5: Using Sentence embeddings to Identify Hate Speech Against Immigrants and Women in {T}witter",
+    author = "Indurthi, Vijayasaradhi  and
+      Syed, Bakhtiyar  and
+      Shrivastava, Manish  and
+      Chakravartula, Nikhil  and
+      Gupta, Manish  and
+      Varma, Vasudeva",
+    booktitle = "Proceedings of the 13th International Workshop on Semantic Evaluation",
+    month = jun,
+    year = "2019",
+    address = "Minneapolis, Minnesota, USA",
+    publisher = "Association for Computational Linguistics",
+    url = "https://aclanthology.org/S19-2009",
+    doi = "10.18653/v1/S19-2009",
+    pages = "70--74",
+    abstract = "This paper describes our system (Fermi) for Task 5 of SemEval-2019: HatEval: Multilingual Detection of Hate Speech Against Immigrants and Women on Twitter. We participated in the subtask A for English and ranked first in the evaluation on the test set. We evaluate the quality of multiple sentence embeddings and explore multiple training models to evaluate the performance of simple yet effective embedding-ML combination algorithms. Our team - Fermi{'}s model achieved an accuracy of 65.00{\%} for English language in task A. Our models, which use pretrained Universal Encoder sentence embeddings for transforming the input and SVM (with RBF kernel) for classification, scored first position (among 68) in the leaderboard on the test set for Subtask A in English language. In this paper we provide a detailed description of the approach, as well as the results obtained in the task.",
+}
+
+
+%% libs
+@article{imbalanced-learn,
+author  = {Guillaume  Lema{{\^i}}tre and Fernando Nogueira and Christos K. Aridas},
+title   = {Imbalanced-learn: A Python Toolbox to Tackle the Curse of Imbalanced Datasets in Machine Learning},
+journal = {Journal of Machine Learning Research},
+year    = {2017},
+volume  = {18},
+number  = {17},
+pages   = {1-5},
+url     = {http://jmlr.org/papers/v18/16-365.html}
+}
+
+@inproceedings{huggingface,
+    title = "Transformers: State-of-the-Art Natural Language Processing",
+    author = "Thomas Wolf and Lysandre Debut and Victor Sanh and Julien Chaumond and Clement Delangue and Anthony Moi and Pierric Cistac and Tim Rault and Rémi Louf and Morgan Funtowicz and Joe Davison and Sam Shleifer and Patrick von Platen and Clara Ma and Yacine Jernite and Julien Plu and Canwen Xu and Teven Le Scao and Sylvain Gugger and Mariama Drame and Quentin Lhoest and Alexander M. Rush",
+    booktitle = "Proceedings of the 2020 Conference on Empirical Methods in Natural Language Processing: System Demonstrations",
+    month = oct,
+    year = "2020",
+    address = "Online",
+    publisher = "Association for Computational Linguistics",
+    url = "https://www.aclweb.org/anthology/2020.emnlp-demos.6",
+    pages = "38--45"
+}
+
+@inproceedings{sentiwordnet,
+    title = "{S}enti{W}ord{N}et 3.0: An Enhanced Lexical Resource for Sentiment Analysis and Opinion Mining",
+    author = "Baccianella, Stefano  and
+      Esuli, Andrea  and
+      Sebastiani, Fabrizio",
+    booktitle = "Proceedings of the Seventh International Conference on Language Resources and Evaluation ({LREC}'10)",
+    month = may,
+    year = "2010",
+    address = "Valletta, Malta",
+    publisher = "European Language Resources Association (ELRA)",
+    url = "http://www.lrec-conf.org/proceedings/lrec2010/pdf/769_Paper.pdf",
+    abstract = "In this work we present SENTIWORDNET 3.0, a lexical resource explicitly devised for supporting sentiment classification and opinion mining applications. SENTIWORDNET 3.0 is an improved version of SENTIWORDNET 1.0, a lexical resource publicly available for research purposes, now currently licensed to more than 300 research groups and used in a variety of research projects worldwide. Both SENTIWORDNET 1.0 and 3.0 are the result of automatically annotating all WORDNET synsets according to their degrees of positivity, negativity, and neutrality. SENTIWORDNET 1.0 and 3.0 differ (a) in the versions of WORDNET which they annotate (WORDNET 2.0 and 3.0, respectively), (b) in the algorithm used for automatically annotating WORDNET, which now includes (additionally to the previous semi-supervised learning step) a random-walk step for refining the scores. We here discuss SENTIWORDNET 3.0, especially focussing on the improvements concerning aspect (b) that it embodies with respect to version 1.0. We also report the results of evaluating SENTIWORDNET 3.0 against a fragment of WORDNET 3.0 manually annotated for positivity, negativity, and neutrality; these results indicate accuracy improvements of about 20{\%} with respect to SENTIWORDNET 1.0.",
+}

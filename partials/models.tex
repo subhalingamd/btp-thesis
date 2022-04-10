@@ -26,7 +26,7 @@ In this setup, we merge all the tweets of each user into a single paragraph. To 
 
 We obtain a sparse vector representation using the paragraph of tweets for each user based on two approaches-- (i) Count Vectorizer and (ii) \ac{TF-IDF} Vectorizer. We build a vocabulary based on the tokens that appear in all the texts in both these approaches. The former only considers the number of times a token appears in the text, resulting in a bias towards frequently occurring tokens. The latter overcomes this by also considering the number of texts containing the token and penalizing the frequently occurring tokens. The minimum and maximum number of times a token must appear in the collection of texts to be included in the vocabulary is a hyper-parameter that we fine-tune (hence, no stopword removal was performed explicitly). We also fine-tune the best n-gram range for building the vocabulary. The final representation does not capture the ordering between the tweets and between the tokens in each tweet.
 
-We train different statistical machine learning models to classify the given user as "keen to spread Hate Speech" or not based on the extracted representation. Specifically, we use \ac{LR}, \ac{SVM} \cite{svm}, \ac{NB}, \ac{RF} \cite{rf}, \ac{XGB} \cite{xgboost} and \ac{LGBM} \cite{lightgbm}. We do not report the performance for \ac{XGB} and \ac{LGBM} with Count Vectorizer for the time being because of the very long time taken for hyper-parameter fine-tuning.
+We train different statistical machine learning models to classify the given user as ``keen to spread Hate Speech'' or not based on the extracted representation. Specifically, we use \ac{LR}, \ac{SVM} \cite{svm}, \ac{NB}, \ac{RF} \cite{rf}, \ac{XGB} \cite{xgboost} and \ac{LGBM} \cite{lightgbm}. We do not report the performance for \ac{XGB} and \ac{LGBM} with Count Vectorizer because of the very long time taken for hyper-parameter fine-tuning.
 %% \sdcomment{We do not report the performance for \ac{XGB} and \ac{LGBM} with Count Vectorizer for the time being because of the very long time taken for hyper-parameter fine-tuning.}
 
 \paragraph{Setup:} We build the entire model pipeline in Python using the scikit-learn \cite{scikit-learn} library and perform a grid search to fine-tune the hyper-parameters with repeated 10-fold cross-validation. The list of hyper-parameter used for fine-tuning is given in Table \ref{tab:models:hparams-tf-based}. The performance of these models is discussed in Section \ref{sec:results:tf-idf}.
@@ -99,9 +99,9 @@ We train different statistical machine learning models to classify the given use
 
 \subsection{Features based representation}
 \label{sec:models:feat-based}
-In this setup, we use the list of features mentioned in Section \ref{sec:dataset:feat-extr} to construct the vector representation for each user and feed this vector into a machine learning classifier. We experiment with different models, namely \ac{LR}, \ac{SVM}, \ac{NB}, \ac{RF}, \ac{XGB} and \ac{LGBM}. 
+In this setup, we use the list of features mentioned in Section \ref{sec:dataset:feat-extr} to construct the vector representation for each user. In particular, the entries in the vector will be the value of the features computed by considering all the user tweets. We feed this vector into a machine learning classifier. We experiment with different models, namely \ac{LR}, \ac{SVM}, \ac{NB}, \ac{RF}, \ac{XGB} and \ac{LGBM}. 
 
-\paragraph{Setup:} We build the entire model pipeline in Python using the scikit-learn \cite{scikit-learn} library and perform a grid search to fine-tune the hyper-parameters with repeated 10-fold cross-validation. The list of hyper-parameter used for fine-tuning is given in Table \ref{tab:models:hparams-feat-based}. The performance of these models is discussed in Section \ref{sec:results:feat-extr}.
+\paragraph{Setup:} We build the entire model pipeline in Python using the scikit-learn library and perform a grid search to fine-tune the hyper-parameters with repeated 10-fold cross-validation. The list of hyper-parameter used for fine-tuning is given in Table \ref{tab:models:hparams-feat-based}. The performance of these models is discussed in Section \ref{sec:results:feat-extr}.
 
 % Please add the following required packages to your document preamble:
 % \usepackage{multirow}
@@ -148,9 +148,9 @@ In this setup, we use the list of features mentioned in Section \ref{sec:dataset
 \subsection{Word-embedding based representation}
 \label{sec:models:word-emb-based}
 
-We do not merge the tweets in this setup, unlike in Section \ref{sec:models:tf-idf}. Instead, we use pre-trained word embeddings and obtain a vector representation for each tweet. We treat all the tweets by the user as a sequence and use \ac{RNN}-based architecture to classify each user finally. It is analogous to considering each user as a "sentence" and each tweet as a "token" in a traditional setting. We explain the procedure we use for getting the representations.
+We do not merge the tweets in this setup, unlike in Section \ref{sec:models:tf-idf}. Instead, we use pre-trained word embeddings and obtain a vector representation for each tweet. We treat all the tweets by the user as a sequence and use \ac{RNN}-based architecture to classify each user finally. It is analogous to considering each user as a ``sentence'' and each tweet as a ``token'' in a traditional setting. We explain the procedure we use for getting the representations.
 
-We use the \ac{GloVe} \cite{glove} word embeddings pre-trained on 2B tweets. These embeddings are dense representations in contrast to vectorization methods used in Section \ref{sec:models:tf-idf}. \ac{GloVe} can capture words that appear in similar contexts as well as words that appear in the context of each other. We replace all the \maskEmoji placeholders and remaining punctuations with white spaces and normalize the white spaces again for each tweet. This includes the '\texttt{\#}' symbols that are present in the placeholders. We split the words at white spaces and get the corresponding \ac{GloVe} word embedding. To retain the same dimension size for all the tweet representations, we aggregate (or pool) all the vectors we obtain for each word in a particular tweet to obtain a single vector of the same dimension. We use one of the following four techniques to build up this vector dimension-wise-- (i) mean-pooling (take the mean of values in the dimension); (ii) max-pooling (take the maximum value in the dimension); (iii) min-pooling (take the minimum value in the dimension); and (iv) abs-max-pooling (take the maximum in terms of the absolute value in the dimension). Upon pooling, we have a sequence of tweet representations for each user. We finally train a \ac{LSTM} model \cite{lstm} for classification.
+We use the \ac{GloVe} \cite{glove} word embeddings pre-trained on 2B tweets. These embeddings are dense representations in contrast to vectorization methods used in Section \ref{sec:models:tf-idf}. \ac{GloVe} can capture words that appear in similar contexts as well as words that appear in the context of each other. We replace all the \maskEmoji{} placeholders and remaining punctuations with white spaces and normalize the white spaces again for each tweet. This includes the '\texttt{\#}' symbols that are present in the placeholders. We split the words at white spaces and get the corresponding \ac{GloVe} word embedding. To retain the same dimension size for all the tweet representations, we aggregate (or pool) all the vectors we obtain for each word in a particular tweet to obtain a single vector of the same dimension. We use one of the following four techniques to build up this vector dimension-wise-- (i) mean-pooling (take the mean of values in the dimension); (ii) max-pooling (take the maximum value in the dimension); (iii) min-pooling (take the minimum value in the dimension); and (iv) abs-max-pooling (take the maximum in terms of the absolute value in the dimension). Upon pooling, we have a sequence of tweet representations for each user. We finally train a \ac{LSTM} model \cite{lstm} for classification.
 
 
 \paragraph{Setup:} We build the entire model pipeline in Python using the PyTorch \cite{pytorch} library with PyTorch Lightning \cite{pytorch_lightning} wrapper and use the Gensim \cite{gensim} library for obtaining the \ac{GloVe} word embeddings. We particularly experiment with 25-dimensional and 200-dimensional \ac{GloVe} embeddings pre-trained on tweets. The given training set was split in the ratio of 9:1 and used the smaller portion as the validation set. The embedding layer was frozen, and we chose the values for hyper-parameters rather than fine-tuning. The values of hyper-parameters used are tabulated in Table \ref{tab:models:hparams-word-emb-based}. AdamW \cite{adamw} was used as the optimizer with a learning rate of 0.001. The validation set was used for early stopping (with a patience of 3). The random states were seeded with a value of 42 to ensure reproducibility. The performance of these models is discussed in Section \ref{sec:results:word-emb}.
@@ -176,3 +176,85 @@ AdamW & LR & 0.001 \\ \hline
 \caption{Hyper-parameters values used in Word-embedding based representation models in Section \ref{sec:models:word-emb-based}}
 \label{tab:models:hparams-word-emb-based}
 \end{table}
+
+
+
+
+\subsection{Counting number of hate tweets}
+\label{sec:models:count-hate}
+
+In this setup, we use a two-stage system to obtain the hate score for each tweet made by a user first, then aggregate these scores and use a threshold to flag if the user is a Hate Speech spreader. This is different from previous setups where we directly obtain whether a user is keen to spread Hate Speech or not. 
+
+Training a model to classify whether a tweet contains Hate Speech or not requires data with annotations for each tweet. The current dataset (PAN @ CLEF 2021) has annotations only for each user and not for the individual tweets of a user. To deal with this, we make use of some other existing datasets. Particularly, we use the following two datasets:
+
+\begin{enumerate}
+    \item Basile et al. released the HatEval dataset \cite{hateval} used in SemEval 2019\footnote{https://alt.qcri.org/semeval2019/} competition. It consists in detecting hateful content in tweets against two targets: \emph{immigrants} and \emph{women}. The label takes a binary value indicating if Hate Speech is occurring against one of the given targets: \textbf{1} if occurs, \textbf{0} if not. The dataset consists of about 13,000 tweets, and about 42\% of them belong to class 1 (i.e., contain Hate Speech). We use the terminology ``HatEval`` to refer to this dataset in our work.
+    
+    \item Waseem and Hovy created a dataset \cite{zeerak} with 16,914 tweets. They focused on identifying those tweets with sexist and racist content. Upon annotating, 3,383 were sexist content, 1,972 were racist content, and the remaining 11,559 were neither sexist nor were racist content. Since we are interested in binary labels, denoting whether a tweet contains Hate Speech or not, we grouped those tweets containing sexist content or racist content into one class (class 1, in or case) and assigned class 0 to those that contain neither of them. Hence, only about 32\% of the tweets contain Hate Speech. We use the terminology ``Zeerak's`` (first author's first name) to refer to this dataset in our work.
+\end{enumerate}
+
+HatEval dataset already comes with a training, validation and test split, but no such splits are present for the Zeerak's dataset. Hence, we do the split by randomly sampling 25\% of the data to be the test set in such a way that the proportions of class labels in each of the splits are the same as the input dataset (stratified split). Moreover, the dataset has a class imbalance (i.e., the number of data points in each class is not the same). We randomly undersample the majority class in the training set to tackle this. 
+
+
+Upon preparing the dataset, we have to obtain a vector representation for each tweet for the first stage of the system. Since the tweets (in the PAN @ CLEF 2021 dataset and the datasets mentioned above) come from different distributions (e.g., different time frames, targets, etc.), To get rid of problems that might occur due to out of vocabulary (OOV) tokens, we restrain ourselves from using Count/\ac{TF-IDF} Vectorizer-based representation (like in Section \ref{sec:models:tf-idf}). Instead, we stick to using the feature vectors (like in Section \ref{sec:models:feat-based}). We use the same set of features from Section \ref{sec:dataset:feat-extr}, but in this case, we get the feature values for each tweet. We feed this vector into a machine learning classifier to obtain the tweet-level labels. We experiment with different models, namely \ac{LR}, \ac{SVM}, \ac{NB}, \ac{RF}, \ac{XGB} and \ac{LGBM}.
+
+Hate scores for each tweet made by a user in the PAN @ CLEF 2021 dataset can be obtained with the above model. Now the idea is to ``just count how many tweets made by a user contain Hate Speech''. If this count is more than a particular \textit{threshold}, predict the user as a Hate Speech Spreader. The threshold is a hyper-parameter to be figured out using the training set by experimenting with different values. 
+
+
+To make a fair comparison of this methodology with other baselines, we use a pre-trained language model to get the hate scores rather than training a model from scratch (in the first stage). In our case, we use the base \ac{RoBERTa} \cite{roberta} model, fine-tuned on tweet data and further fine-tuned for the Hate Speech prediction task \cite{roberta-finetuned}. Note that since this model was trained on a vast corpus, it has an extensive set of vocabulary, in contrast to Count/\ac{TF-IDF} Vectorizer-based models that have a limited vocabulary based on the words it sees in the current training data. Hence, problems due to the presence of OOV words mentioned earlier are not relevant in this case. Pre-trained models are also known to capture the intricacies of Natural Languages like word synonyms, context-based word disambiguation, etc., in contrast to Count/\ac{TF-IDF} Vectorizer-based models, due to the difference in the methods used while training. As done earlier, we then count the number of hate-containing tweets to determine if the user is a Hate Speech Spreader.
+
+
+
+\paragraph{Setup:} We build the entire model pipeline in Python. For undersampling the training data, we use the imbalanced-learn \cite{imbalanced-learn} library. For training the ML classifiers, we use the scikit-learn library and perform a grid search to fine-tune the hyper-parameters with repeated 10-fold cross-validation. The list of hyper-parameter used for fine-tuning is given in Table \ref{tab:models:hparams-feat-based}. We directly use the \texttt{cardiffnlp/twitter-roberta-base-hate}\footnote{https://huggingface.co/cardiffnlp/twitter-roberta-base-hate} model checkpoint from the Hugging Face Transformers library and do not perform further fine-tuning. To get the best threshold value, we iterate over different values and choose the one that gives the best accuracy on the training set. The performance of these systems is discussed in Section \ref{sec:results:count-hate}.
+
+
+
+\section{Our Model}
+\label{sec:models:our-model}
+
+\subsection{Motivation}
+\label{sec:models:our-model:motivation}
+It is intuitive that Hate Speech either consists of abusive or harmful words or indirectly implies them, thus carrying a high negative sentiment score. If a model can give more importance to these particular words than the rest, it might help the model better capture the presence of Hate Speech in some text, especially if it is wordy. This can be conceptualized as the ``\textit{attention}''  weights used in the transformer-based architectures \cite{attention}. The word-embedding of each word is multiplied by a learnt scalar weight, denoting the importance of that word in the context. However, unlike these, we do not make our model learn the weights or the word embeddings as we have a small dataset. Rather, we use the ``sentiment scores'' from the SentiWordNet lexical resource \cite{sentiwordnet} as the weights and the \ac{GloVe} embeddings pre-trained on Twitter for representing each word. We then take a weighted sum to get the tweet representation, aggregate these tweet representations and use an ML classifier to predict whether the user is a Hate Speech Spreader or not. Our model is described in detail in the following section.
+
+\subsection{Methodology}
+\label{sec:models:our-model:methodology}
+
+\begin{enumerate}
+    \item \textbf{Further pre-processing:} We remove \maskRt{}, \maskEmoji{}, \maskUrl{} and \maskUser placeholders and replace the \maskHashtag placeholder with the word ``hashtag'' from the data. Then, any remaining punctuations are replaced with white spaces and normalize the white spaces again. We use this ``cleaned'' data in the following steps.
+    
+    \item \label{enum:models:our-model:method:stopwords} \textbf{Stopwords removal:} Stop words are those words that frequently occur in a corpus, do not add much meaning and can be safely ignored without sacrificing the meaning of the sentence. By removing stop words, we remove the low-level information from our text to give more focus to the important information. We use the list of ``english'' stopwords from the NLTK library and remove all those words in the data that are part of this list. % Our ablation experiment in Section {ref} shows that stop word removal helps in improving the performance.
+    
+    \item \textbf{Getting POS tags:} SentiWordNet requires the Part of Speech (POS) tag along with the word to obtain the correct set of sentiment scores. We focus only on nouns, verbs, adjectives and adverbs as these are usually the sentiment carrying words. We obtain the POS tags from the NLTK library. 
+    
+    \item \label{enum:models:our-model:method:swn-embd} \textbf{Getting sentiment scores and word embeddings:} SentiWordNet also has a different set of sentiment scores depending on the sense in which the word is used (denoted by ``\textit{sense numbers}''). For example, ``\textit{field}'' might mean ``knowledge domain'' or ``piece of land''. Since we do not have a method to obtain the word sense, we use the most commonly used sense. The lexicon gives each word a positive, neutral and negative sentiment score. We get the word embeddings from \ac{GloVe} pre-trained on 2B tweets. If the word occurring in a tweet is not present in at least one of SentiWordNet or \ac{GloVe}, we simply ignore the word. We obtain the sentiment scores from SentiWordNet using the NLTK library and the \ac{GloVe} word embeddings from the Gensim library.
+    
+    \item \label{enum:models:our-model:method:wght-sum} \textbf{Constructing the feature space:} We have the sentiment scores (positive, neutral and negative) and word embeddings (say, $d$-dimensional) for each word in a tweet. We first compute the weighted sum of all the embeddings, the weights being the positive scores. Similarly, we take the weighted sum using the neutral scores as weights, and then with the negative scores as weights. We concatenate these three $d$-dimensional vectors obtained by summing to obtain the tweet representation. Hence, for a $d$-dimensional word embedding, we construct a $3d$-dimensional feature space. More formally, if we represent a tweet as $<w_1, w_2, \dots, w_n>$, where $w_i$ is the $i^{th}$ word in the tweet, and if each $w_i$ has positive, neutral and negative sentiment scores $\mathit{s_i^{pos}}$, $\mathit{s_i^{neut}}$ and $\mathit{s_i^{neg}}$ and embedding $e_i$, then we obtain the tweet-level representation $t$ as:
+    
+    \[ t^{pos} = \mathit{s_1^{pos}}e_1 + \mathit{s_2^{pos}}e_2 + \dots + \mathit{s_n^{pos}}e_n \]
+    \[ t^{neut} = \mathit{s_1^{neut}}e_1 + \mathit{s_2^{neut}}e_2 + \dots + \mathit{s_n^{neut}}e_n \]
+    \[ t^{neg} = \mathit{s_1^{neg}}e_1 + \mathit{s_2^{neg}}e_2 + \dots + \mathit{s_n^{neg}}e_n \]
+    \[ t = concat(t^{pos}, \ t^{neut}, \ t^{neg}) \]
+    
+    
+    Now that we have the representation of tweets made by a user, we have to aggregate them to obtain the user representation. In our case, we use mean pooling, i.e., we take the mean of embedding values of all the tweets of a user along each dimension. Hence, if we have tweets $t_1, t_2, \dots, t_{n}$ for a user, we obtain the user representation as:
+    
+    % \[ u = (t_1 + t_2 + \dots + t_{n})/n \]
+    \[ u = \frac{1}{n} \sum_{i=1}^{n} t_i \]
+    
+    \item \textbf{Classifier:} Finally, we obtained the input for the classifier model, i.e., the $3d$-dimensional user representation. We experiment with different ML classifiers, namely \ac{LR}, \ac{SVM}, \ac{RF}, \ac{XGB}, \ac{LGBM} and \ac{NN}. The output will be a binary label-- 1 if the user is a Hate Speech Spreader and 0 if not. Like in previous experiments, we build the entire model pipeline in Python using the scikit-learn library and perform a grid search to fine-tune the hyper-parameters with repeated 10-fold cross-validation. The list of hyper-parameter used for fine-tuning is given in Table \ref{tab:models:hparams-feat-based}. The performance of these models is discussed in Section \ref{sec:results:our-model}.
+\end{enumerate}
+
+% comparing with unweighted sum?
+
+
+% \subsection{Ablations}
+% \label{sec:models:our-model:ablations}
+
+
+
+\section{Ensemble}
+\label{sec:models:ensemble}
+
+We pick the best classifiers in terms of accuracy from term-frequency based representation baselines (Sections \ref{sec:models:tf-idf}), counting the number of hate tweets baselines (Section \ref{sec:models:count-hate}) and our models (Section \ref{sec:models:our-model}), and create a max-voting classifier to combine their predictions. Each participating model independently predicts which class a given input belongs to (``\textit{vote}''), and the class that receives the maximum \textit{vote} is regarded as the final output. In our case, we have only binary labels and three participating models. Hence, the class that receives at least two \textit{votes} will be the final output class. Note that no additional hyperparameters are introduced in this step.
+
+

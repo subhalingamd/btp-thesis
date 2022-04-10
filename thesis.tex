@@ -11,7 +11,7 @@
  \usepackage{t1enc}
 
 \usepackage{graphicx}
-\usepackage{hyperref} % hyperlinks for references.
+\usepackage[hidelinks]{hyperref} % hyperlinks for references.
 \usepackage{amsmath} % easier math formulae, align, subequations \ldots
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
@@ -66,39 +66,39 @@
 \advisor{Prof. Niladri Chatterjee}
 \entrynumber{2018MT10770}
 \date{April 2022}
-\department{Mathematics and Computing}
+\department{Mathematics}
 
 %\nocite{*}
 \maketitle
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% % Certificate
-% \certificate
+% Certificate
+\certificate
 
-% \vspace*{0.5in}
+\vspace*{0.5in}
 
-% \noindent This is to certify that the thesis titled {\bf Identification of Hate Spreaders on Social Media}, submitted by {\bf Subhalingam D}, to the Indian Institute of Technology, Delhi, for
-% the award of the degree of {\bf Bachelor of Technology}, is a bonafide
-% record of the research work done by him under our supervision. The
-% contents of this thesis, in full or in parts, have not been submitted
-% to any other Institute or University for the award of any degree or
-% diploma.
+\noindent This is to certify that the thesis titled {\bf Identification of Hate Spreaders on Social Media}, submitted by {\bf Subhalingam D}, to the Indian Institute of Technology, Delhi, for
+the award of the degree of {\bf Bachelor of Technology}, is a bonafide
+record of the research work done by him under our supervision. The
+contents of this thesis, in full or in parts, have not been submitted
+to any other Institute or University for the award of any degree or
+diploma.
 
-% \vspace*{1.5in}
+\vspace*{1.5in}
 
-% \begin{singlespacing}
-% \hspace*{-0.25in}
-% \parbox{3.5in}{
-% \noindent {\bf Prof. Niladri Chatterjee} \\
-% \noindent Professor \\
-% \noindent Department of Mathematics\\
-% \noindent Indian Institute of Technology, Delhi \\
-% }
-% \hspace*{1.0in}
-% \end{singlespacing}
-% % \vspace*{0.25in}
-% % \noindent Place: New Delhi\\
-% % Date: 14 April 2022
+\begin{singlespacing}
+\hspace*{-0.25in}
+\parbox{3.5in}{
+\noindent {\bf Prof. Niladri Chatterjee} \\
+\noindent Professor \\
+\noindent Department of Mathematics\\
+\noindent Indian Institute of Technology, Delhi \\
+}
+\hspace*{1.0in}
+\end{singlespacing}
+% \vspace*{0.25in}
+% \noindent Place: New Delhi\\
+% Date: 14 April 2022
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -116,7 +116,11 @@
 
 \vspace*{24pt}
 
-\noindent With the internet becoming more accessible to a larger set of population and the anonymity and freedom provided by social media platforms, hate speech propagation has reached new heights in recent times. With evolving scenario, manually inspecting each post is infeasible. Hence developing automatic hate speech detection systems has been a critical area of research in NLP. The present work focuses on detecting users keen to spread hate rather than classifying individual tweets. Our baselines with Logistic Regression and Support Vector Machine achieve an accuracy of 69\% on the test set. While it is intuitive that tweets indicating hate tend to carry a high negative sentiment score, our experiments also show that the negative sentiment score is the most important feature among all other features considered. We plan to work towards incorporating the sentiment scores as weights for denoting the word importance in a tweet and exploring methods thereof.
+% \noindent With the internet becoming more accessible to a larger set of population and the anonymity and freedom provided by social media platforms, hate speech propagation has reached new heights in recent times. With evolving scenario, manually inspecting each post is infeasible. Hence developing automatic hate speech detection systems has been a critical area of research in NLP. The present work focuses on detecting users keen to spread hate rather than classifying individual tweets. Our baselines with Logistic Regression and Support Vector Machine achieve an accuracy of 69\% on the test set. While it is intuitive that tweets indicating hate tend to carry a high negative sentiment score, our experiments also show that the negative sentiment score is the most important feature among all other features considered. We plan to work towards incorporating the sentiment scores as weights for denoting the word importance in a tweet and exploring methods thereof.
+
+\noindent
+With the internet becoming more accessible to a larger set of population and the anonymity and freedom provided by social media platforms, hate speech propagation has reached new heights in recent times. With evolving scenario, manually inspecting each post is infeasible. Hence developing automatic hate speech detection systems has been a critical area of research in NLP. The present work focuses on detecting users who are keen to spread hate, as identifying spreaders is considered to be more useful than merely classifying individual tweets. To this end, we perform an exploratory data analysis on the given dataset and extract several features, such as user and stylistic features, sentiments, emoticons, stopwords and named-entity mentions, and their several statistical properties. Different baselines are then developed using several handcrafted features, TF-IDF based word representation and flagging those users who post hateful tweets beyond a certain threshold. Finally, we propose a novel model that uses pre-trained word embeddings for encoding the words and incorporates the sentiment scores as weights to mark the importance of the words. It then computes a weighted sum to get the tweet representation and aggregates these to obtain the user representation. The user representation is finally fed to an ML classifier. In particular, we used Logistic Regression, Support Vector Machine, Random Forest, eXtreme Gradient Boosting, Light Gradient Boosting Machine and Neural Network. While it is intuitive that tweets indicating hate tend to carry a high negative sentiment score, our experiments also show that the negative sentiment score is the most important feature among all other features considered. Our model achieves an accuracy of 76\% on the test set and outperforms the best model in the competition. We further improve the accuracy by creating an ensemble of models. In future, we plan to investigate these models in more detail.
+
 
 \pagebreak
 
